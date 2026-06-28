@@ -1,3 +1,5 @@
+# List of apps available for installation
+# Each app is represented as a dictionary with its name, category, and winget ID
 APPS = [
     {
         "name": "Chrome",
