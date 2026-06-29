@@ -1,4 +1,3 @@
-from pydoc import text
 import tkinter as tk
 import threading
 from installer import install_app
@@ -49,7 +48,7 @@ class App:
         for app, var in zip(APPS, self.vars):
             # Loop through each app and install checked ones
             if var.get():
-                self.status_label.config(f"Installing {app['name']}...")
+                self.update_status(f"Installing {app['name']}...")
                 install_app(app["winget_id"])
         self.update_status("Installation complete")
 
