@@ -30,7 +30,7 @@ class App:
 
         # Enable mouse wheel scrolling
         self.root.bind("<MouseWheel>", lambda e: canvas.yview_scroll(int(-1 * (e.delta / 120)), "units"))
-        
+
         # Select all checkbox at the top
         self.select_all_var = tk.BooleanVar()
         select_all_chk = tk.Checkbutton(self.frame, text="Select All", variable=self.select_all_var, anchor="w", command=self.toggle_all)
@@ -68,7 +68,7 @@ class App:
             # Loop through each app and install checked ones
             if var.get():
                 self.update_status(f"Installing {app['name']}...")
-                install_app(app["winget_id"])
+                install_app(app)
         self.update_status("Installation complete")
 
     def start_install(self):
