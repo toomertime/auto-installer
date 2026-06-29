@@ -38,7 +38,8 @@ APPS = [
     {
         "name": "Battle.net",
         "category": "Gaming Launcher",
-        "winget_id": "Blizzard.BattleNet"
+        "winget_id": "Blizzard.BattleNet",
+        "install_location": "C:\\Program Files (x86)\\Battle.net"
     },
 
     # Antivirus
