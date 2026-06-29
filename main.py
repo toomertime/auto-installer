@@ -18,12 +18,15 @@ class App:
 
         install_btn = tk.Button(self.root, text="Install", command=self.on_install)
         install_btn.pack()
+        self.status_label = tk.Label(self.root, text="Ready")
+        self.status_label.pack()
 
     def on_install(self):
         for app, var in zip(APPS, self.vars):
             if var.get():
-                print(f"Installing {app['name']}...")
+                self.status_label.config(text=f"Installing {app['name']}...")
                 install_app(app["winget_id"])
+            self.status_label.config(text="Installation complete")
 
 root = tk.Tk()
 app = App(root)
