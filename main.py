@@ -68,7 +68,6 @@ class App:
             # Loop through each app and install checked ones
             if var.get():
                 self.update_status(f"Installing {app['name']}...")
-                print(app) #debug
                 install_app(app)
         self.update_status("Installation complete")
 
