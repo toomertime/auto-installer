@@ -7,7 +7,7 @@ class App:
     def __init__(self, root):
         self.root = root
         self.root.title("Auto Installer")
-        self.root.geometry("400x300")
+        self.root.geometry("1920x1080")
 
         # List of boolean variables for each app
         self.vars = []
