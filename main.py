@@ -1,4 +1,5 @@
 import tkinter as tk
+from installer import install_app
 from catalog import APPS
 
 class App:
@@ -15,8 +16,14 @@ class App:
             checkbox.pack(fill="x")
             self.vars.append(var)
 
-        install_btn = tk.Button(self.root, text="Install")
+        install_btn = tk.Button(self.root, text="Install", command=self.on_install)
         install_btn.pack()
+
+    def on_install(self):
+        for app, var in zip(APPS, self.vars):
+            if var.get():
+                print(f"Installing {app['name']}...")
+                install_app(app["winget_id"])
 
 root = tk.Tk()
 app = App(root)
