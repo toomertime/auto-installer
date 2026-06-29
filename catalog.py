@@ -1,5 +1,7 @@
 # List of apps available for installation
 # Each app is represented as a dictionary with its name, category, and winget ID
+# The "process_name" key is optional and specifies the name of the process to kill after installation
+# The "install_location" key is optional and specifies where the app should be installed
 APPS = [
     # Browsers
     {
