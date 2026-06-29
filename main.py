@@ -1,3 +1,4 @@
+from pydoc import text
 import tkinter as tk
 import threading
 from installer import install_app
@@ -40,13 +41,17 @@ class App:
         for var in self.vars:
             var.set(self.select_all_var.get())
 
+    def update_status(self, text):
+        # Update the status label with the given text in main thread
+        self.root.after(0, lambda: self.status_label.config(text=text))
+    
     def on_install(self):
         for app, var in zip(APPS, self.vars):
             # Loop through each app and install checked ones
             if var.get():
-                self.status_label.config(text=f"Installing {app['name']}...")
+                self.status_label.config(f"Installing {app['name']}...")
                 install_app(app["winget_id"])
-        self.status_label.config(text="Installation complete")
+        self.update_status("Installation complete")
 
     def start_install(self):
         # Run installation in a background thread to avoid freezing the UI
