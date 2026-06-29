@@ -38,7 +38,7 @@ APPS = [
     {
         "name": "Battle.net",
         "category": "Gaming Launcher",
-        "winget_id": "Blizzard.Battle.net"
+        "winget_id": "Blizzard.BattleNet"
     },
 
     # Antivirus
