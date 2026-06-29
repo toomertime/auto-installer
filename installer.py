@@ -10,7 +10,7 @@ def install_app(app):
     ]
     if "install_location" in app:
         cmd += ["--location", app["install_location"]]
-
+    print(cmd) #debug
     subprocess.run(cmd)
     
     # iff app has a process_name, attempt to kill it after installation
