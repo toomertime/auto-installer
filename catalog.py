@@ -41,6 +41,7 @@ APPS = [
         "name": "Battle.net",
         "category": "Gaming Launcher",
         "winget_id": "Blizzard.BattleNet",
+        "process_name": "Battle.net.exe",
         "install_location": "C:\\Program Files (x86)\\Battle.net"
     },
 
