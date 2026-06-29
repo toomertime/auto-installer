@@ -21,7 +21,7 @@ APPS = [
         "name": "Opera",
         "category": "Browser",
         "winget_id": "Opera.Opera",
-        "process_name": "Opera Internet Browser"
+        "process_name": "opera"
     },
 
     # Gaming Launchers
