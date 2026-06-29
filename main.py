@@ -7,23 +7,42 @@ class App:
     def __init__(self, root):
         self.root = root
         self.root.title("Auto Installer")
-        self.root.geometry("1920x1080")
+        self.root.geometry("1280x720")
 
         # List of boolean variables for each app
         self.vars = []
 
+        # Create canvas and scroll bar
+        canvas = tk.Canvas(self.root)
+        scrollbar = tk.Scrollbar(self.root, orient="vertical", command=canvas.yview)
+        canvas.config(yscrollcommand=scrollbar.set)
+
+        # Pack side by side
+        scrollbar.pack(side="right", fill="y")
+        canvas.pack(side="left", fill="both", expand=True)
+
+        #  Create a frame inside the canvas to hold the checkboxes
+        self.frame = tk.Frame(canvas)
+        canvas.create_window((0, 0), window=self.frame, anchor="nw")
+
+        # Update the scroll region when the frame is resized
+        self.frame.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
+
+        # Enable mouse wheel scrolling
+        self.root.bind("<MouseWheel>", lambda e: canvas.yview_scroll(int(-1 * (e.delta / 120)), "units"))
+        
         # Select all checkbox at the top
         self.select_all_var = tk.BooleanVar()
-        select_all_chk = tk.Checkbutton(self.root, text="Select All", variable=self.select_all_var, anchor="w", command=self.toggle_all)
+        select_all_chk = tk.Checkbutton(self.frame, text="Select All", variable=self.select_all_var, anchor="w", command=self.toggle_all)
         select_all_chk.pack(fill="x")
 
         # Space between the select all checkbox and the app list
-        tk.Label(self.root, text="").pack()
+        tk.Label(self.frame, text="").pack()
 
         # Create a checkbox for each app in the catalog
         for app in APPS:
             var = tk.BooleanVar()
-            checkbox = tk.Checkbutton(self.root, text=app["name"], variable=var, anchor="w")
+            checkbox = tk.Checkbutton(self.frame, text=app["name"], variable=var, anchor="w")
             checkbox.pack(fill="x")
             self.vars.append(var)
 
