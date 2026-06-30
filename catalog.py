@@ -58,11 +58,6 @@ APPS = [
     },
     # Trend Micro - No winget ID available
     # Norton 360 - No winget ID available
-    {
-        "name": "Bitdefender",
-        "category": "Antivirus",
-        "winget_id": "Bitdefender.Bitdefender"
-    },
 
     # Media
     {
