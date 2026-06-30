@@ -50,7 +50,7 @@ APPS = [
         "name": "Webroot",
         "category": "Antivirus",
         "winget_id": "Webroot.SecureAnywhere",
-        "process_name": "Webroot.exe"
+        "process_name": "WRSA.exe"
     },
     {
         "name": "Malwarebytes",
