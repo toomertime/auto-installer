@@ -10,7 +10,8 @@ def install_app(app):
     ]
     if "install_location" in app:
         cmd += ["--location", app["install_location"]]
-    subprocess.run(cmd)
+
+    subprocess.run(cmd, creationflags=subprocess.DETACHED_PROCESS)
     
     # iff app has a process_name, attempt to kill it after installation
     if "process_name" in app:
