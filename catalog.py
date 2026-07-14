@@ -2,6 +2,8 @@
 # Each app is represented as a dictionary with its name, category, and winget ID
 # The "process_name" key is optional and specifies the name of the process to kill after installation
 # The "install_location" key is optional and specifies where the app should be installed
+# The "override" key is optional and passes custom flags to the installer
+# The "skip_cleanup" key is optional and skips killing background processes after installation
 APPS = [
     # Browsers
     {
@@ -49,7 +51,8 @@ APPS = [
     {
         "name": "Webroot",
         "category": "Antivirus",
-        "winget_id": "Webroot.SecureAnywhere"
+        "winget_id": "Webroot.SecureAnywhere",
+        "skip_cleanup": True
     },
     {
         "name": "Malwarebytes",
@@ -70,11 +73,14 @@ APPS = [
         "category": "Media",
         "winget_id": "Apple.iTunes"
     },
-    {
-        "name": "Spotify",
-        "category": "Media",
-        "winget_id": "Spotify.Spotify"
-    },
+    # Spotify - requires non-admin context, skipped for now.
+    # Planned for v2: separate non-admin helper process.
+    #{
+    #    "name": "Spotify",
+    #    "category": "Media",
+    #    "winget_id": "Spotify.Spotify",
+    #    "requires_non_admin": True  # This app requires non-admin privileges
+    #},
 
     # Cloud Storage
     {
