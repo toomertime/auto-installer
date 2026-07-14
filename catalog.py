@@ -1,9 +1,8 @@
 # List of apps available for installation
 # Each app is represented as a dictionary with its name, category, and winget ID
-# The "process_name" key is optional and specifies the name of the process to kill after installation
 # The "install_location" key is optional and specifies where the app should be installed
 # The "override" key is optional and passes custom flags to the installer
-# The "skip_cleanup" key is optional and skips killing background processes after installation
+# The "cleanup_processes" key is optional and specifies a list of processes to kill after installation
 APPS = [
     # Browsers
     {
@@ -25,7 +24,7 @@ APPS = [
         "name": "Opera",
         "category": "Browser",
         "winget_id": "Opera.Opera",
-        "process_name": "opera.exe"
+        "cleanup_processes": ["opera.exe"]
     },
 
     # Gaming Launchers
@@ -43,7 +42,7 @@ APPS = [
         "name": "Battle.net",
         "category": "Gaming Launcher",
         "winget_id": "Blizzard.BattleNet",
-        "process_name": "Battle.net.exe",
+        "cleanup_processes": ["Battle.net.exe"],
         "install_location": "C:\\Program Files (x86)\\Battle.net"
     },
 
@@ -51,8 +50,7 @@ APPS = [
     {
         "name": "Webroot",
         "category": "Antivirus",
-        "winget_id": "Webroot.SecureAnywhere",
-        "skip_cleanup": True
+        "winget_id": "Webroot.SecureAnywhere"
     },
     {
         "name": "Malwarebytes",
