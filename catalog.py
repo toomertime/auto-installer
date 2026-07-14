@@ -92,22 +92,7 @@ APPS = [
         "winget_id": "Google.GoogleDrive"
     },
 
-    # Productivity
-    {
-        "name": "Microsoft Office",
-        "category": "Productivity",
-        "winget_id": "Microsoft.Office"
-    },
-    {
-        "name": "Adobe Acrobat Reader",
-        "category": "Productivity",
-        "winget_id": "Adobe.Acrobat.Reader.64-bit"
-    },
-    {
-        "name": "LibreOffice",
-        "category": "Productivity",
-        "winget_id": "thedocumentfoundation.LibreOffice"
-    },
+    
 
     # Video Conferencing
     {
@@ -120,11 +105,31 @@ APPS = [
     {
         "name": "HP Support Assistant",
         "category": "Utility",
-        "winget_id": "HPInc.HPSupportAssistant"
+        "winget_id": "HPInc.HPSupportAssistant",
+        "cleanup_processes": ["InstallHSPA.exe"]
     },
     {
         "name": "7-Zip",
         "category": "Utility",
         "winget_id": "7Zip.7Zip"
+    },
+
+    # Productivity
+    {
+        "name": "Adobe Acrobat Reader",
+        "category": "Productivity",
+        "winget_id": "Adobe.Acrobat.Reader.64-bit"
+    },
+    {
+        "name": "LibreOffice",
+        "category": "Productivity",
+        "winget_id": "thedocumentfoundation.LibreOffice"
+    },
+    {
+        # Microsoft Office Needs to be installed last due to size making it take a long time to install and potentially causing issues with other apps.
+        # No cleanup_processes, ClickToRunSVC is a service that installs less used apps in background and updates them, so it should be left running.
+        "name": "Microsoft Office",
+        "category": "Productivity",
+        "winget_id": "Microsoft.Office"
     }
 ]
