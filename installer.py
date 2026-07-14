@@ -10,6 +10,7 @@ def kill_new_processes(pids_before):
     for pid in new_pids:
         try:
             proc = psutil.Process(pid)
+            print(f"Killing process: {proc.name()} (PID: {pid})")
             proc.kill()
         except (psutil.NoSuchProcess, psutil.AccessDenied):
             pass
