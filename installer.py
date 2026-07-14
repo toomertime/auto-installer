@@ -4,12 +4,25 @@ import psutil
 def get_pids():
     return set(psutil.pids())
 
+SYSTEM_PROCESSES = {
+    "SearchProtocolHost.exe",
+    "dllhost.exe",
+    "svchost.exe",
+    "RuntimeBroker.exe",
+    "conhost.exe",
+    "WmiPrvSE.exe",
+    "SearchFilterHost.exe",
+}
+
 def kill_new_processes(pids_before):
     pids_after = get_pids()
     new_pids = pids_after - pids_before
     for pid in new_pids:
         try:
             proc = psutil.Process(pid)
+            if proc.name() in SYSTEM_PROCESSES:
+                print(f"Skipping system process: {proc.name()} (PID: {pid})")
+                continue
             print(f"Killing process: {proc.name()} (PID: {pid})")
             proc.kill()
         except (psutil.NoSuchProcess, psutil.AccessDenied):
