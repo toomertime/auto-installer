@@ -17,6 +17,6 @@ def install_app(app):
     subprocess.run(cmd)
     
     if "cleanup_processes" in app:
-        time.sleep(2)
+        time.sleep(5)
         for process in app["cleanup_processes"]:
             subprocess.run(["taskkill", "/f", "/im", process], capture_output=True)
