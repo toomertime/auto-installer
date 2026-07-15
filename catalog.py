@@ -106,7 +106,7 @@ APPS = [
         "name": "HP Support Assistant",
         "category": "Utility",
         "winget_id": "HPInc.HPSupportAssistant",
-        "cleanup_processes": ["InstallHPSA.exe"]
+        "cleanup_processes": ["InstallHPSA.exe", "HPSAAppLauncher.exe"]
     },
     {
         "name": "7-Zip",
