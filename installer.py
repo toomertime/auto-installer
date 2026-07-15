@@ -23,7 +23,7 @@ def install_app(app):
     
     if "cleanup_processes" in app:
         stop_event = threading.Event()
-        cleanup_thread = threading._Thread(
+        cleanup_thread = threading.Thread(
             target=kill_process_when_found,
             args=(app["cleanup_processes"], stop_event)
         )
