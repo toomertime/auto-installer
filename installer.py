@@ -1,5 +1,12 @@
 import subprocess
 import time
+import threading
+
+def kill_process_when_found(processes, stop_event):
+    while not stop_event.is_set():
+        for process in processes:
+            subprocess.run(["taskkill", "/f", "/im", process], capture_output=True)
+        time.sleep(1)
 
 def install_app(app):
     cmd = [
@@ -13,10 +20,18 @@ def install_app(app):
         cmd += ["--location", app["install_location"]]
     if "override" in app:
         cmd += ["--override", app["override"]]
+    
+    if "cleanup_processes" in app:
+        stop_event = threading.Event()
+        cleanup_thread = threading.thread(
+            target=kill_process_when_found,
+            args=(app["cleanup_processes"], stop_event)
+        )
+        cleanup_thread.daemon = True
+        cleanup_thread.start()
 
     subprocess.run(cmd)
     
     if "cleanup_processes" in app:
-        time.sleep(5)
-        for process in app["cleanup_processes"]:
-            subprocess.run(["taskkill", "/f", "/im", process], capture_output=True)
+        stop_event.set()
+        cleanup_thread.join()
