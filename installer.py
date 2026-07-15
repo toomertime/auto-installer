@@ -2,10 +2,11 @@ import subprocess
 import time
 import threading
 
-def kill_process_when_found(processes, stop_event):
+def kill_process_when_found(processes, stop_event, delay=0):
+    time.sleep(delay)
     while not stop_event.is_set():
         for process in processes:
-            result = subprocess.run(["taskkill", "/f", "/im", process], capture_output=True)
+            result = subprocess.run(["taskkill", "/f", "/t", "/im", process], capture_output=True)
             if result.returncode == 0:
                 print(f"Killed: {process}")
             else:
@@ -29,7 +30,7 @@ def install_app(app):
         stop_event = threading.Event()
         cleanup_thread = threading.Thread(
             target=kill_process_when_found,
-            args=(app["cleanup_processes"], stop_event)
+            args=(app["cleanup_processes"], stop_event, app.get("cleanup_delay", 0))
         )
         cleanup_thread.daemon = True
         cleanup_thread.start()
