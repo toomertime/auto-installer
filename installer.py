@@ -5,7 +5,11 @@ import threading
 def kill_process_when_found(processes, stop_event):
     while not stop_event.is_set():
         for process in processes:
-            subprocess.run(["taskkill", "/f", "/im", process], capture_output=True)
+            result = subprocess.run(["taskkill", "/f", "/im", process], capture_output=True)
+            if result.returncode == 0:
+                print(f"Killed: {process}")
+            else:
+                print(f"Not found yet: {process}")
         time.sleep(1)
 
 def install_app(app):
