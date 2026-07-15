@@ -1,17 +1,4 @@
 import subprocess
-import time
-import threading
-
-def kill_process_when_found(processes, stop_event, delay=0):
-    time.sleep(delay)
-    while not stop_event.is_set():
-        for process in processes:
-            result = subprocess.run(["taskkill", "/f", "/t", "/im", process], capture_output=True)
-            if result.returncode == 0:
-                print(f"Killed: {process}")
-            else:
-                print(f"Not found yet: {process}")
-        time.sleep(1)
 
 def install_app(app):
     cmd = [
@@ -26,17 +13,14 @@ def install_app(app):
     if "override" in app:
         cmd += ["--override", app["override"]]
     
-    if "cleanup_processes" in app:
-        stop_event = threading.Event()
-        cleanup_thread = threading.Thread(
-            target=kill_process_when_found,
-            args=(app["cleanup_processes"], stop_event, app.get("cleanup_delay", 0))
-        )
-        cleanup_thread.daemon = True
-        cleanup_thread.start()
+    process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
 
-    subprocess.run(cmd)
+    for line in process.stdout:
+        print(line, end="")
+        if "Successfully installed" in line:
+            if "cleanup_processes" in app:
+                for p in app["cleanup_processes"]:
+                    subprocess.run(["taskkill", "/f", "/t", "/im", p], capture_output=True)
     
-    if "cleanup_processes" in app:
-        stop_event.set()
-        cleanup_thread.join()
+    process.wait()
+
