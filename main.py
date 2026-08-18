@@ -1,3 +1,5 @@
+#auto installer v1.0
+
 import tkinter as tk
 import threading
 from installer import install_app
