@@ -1,11 +1,11 @@
-# v2.0.0
+# v2.1.0
 
 import shutil
 import subprocess
 from dataclasses import dataclass
 from enum import Enum
 
-# Machine readable status codes for WinGet environment
+# Machine-readable status codes for WinGet environment
 # that can be passed to GUI.
 class DiagnosticStatus(Enum):
     WINGET_OK = "winget_ok"
@@ -16,11 +16,11 @@ class DiagnosticStatus(Enum):
     WINGET_ERROR = "winget_error"
 
 
-# Represents the results of WinGet environtment check.
+# Represents the results of the WinGet environtment check.
 # GUI can use this info to decide whether installations
 # should be allowed to start.
 @dataclass
-class DiagnosticResults:
+class DiagnosticResult:
     ready: bool
     status: DiagnosticStatus
     winget_path: str | None
@@ -28,9 +28,10 @@ class DiagnosticResults:
     winget_source_available: bool
     error: str | None = None
 
+
 def check_winget():
     """
-    Check whether WinGet is available and useable.
+    Check whether WinGet is available and usable.
     
     Checks include:
     - Can Windows locate winget?
@@ -41,9 +42,10 @@ def check_winget():
     # Find the executable that Windows would use when "winget" is run 
     # from this Python process.
     winget_path = shutil.which("winget")
+    winget_version = None
 
     if winget_path is None:
-        return DiagnosticResults(
+        return DiagnosticResult(
             ready=False,
             status=DiagnosticStatus.WINGET_NOT_FOUND,
             winget_path=None,
@@ -55,7 +57,7 @@ def check_winget():
     try:
         # Verify WinGet can start.
         # Seperate from shutil.which() because Windows may find
-        # winget.exe but fail attempting to run.
+        # winget.exe but fail when attempting to run.
         version_result = subprocess.run(
             [winget_path, "--version"],
             capture_output=True,
@@ -64,7 +66,7 @@ def check_winget():
         )
 
         if version_result.returncode != 0:
-            return DiagnosticResults(
+            return DiagnosticResult(
                 ready=False,
                 status=DiagnosticStatus.WINGET_ERROR,
                 winget_path=winget_path,
@@ -84,7 +86,7 @@ def check_winget():
         )
 
         if source_result.returncode != 0:
-            return DiagnosticResults(
+            return DiagnosticResult(
                 ready=False,
                 status=DiagnosticStatus.WINGET_ERROR,
                 winget_path=winget_path,
@@ -94,7 +96,7 @@ def check_winget():
             )
 
 
-        # look for the standard source named exactly "winget".
+        # Look for the standard source named exactly "winget".
         winget_source_available = any(
             line.split()[0] == "winget"
             for line in source_result.stdout.splitlines()
@@ -102,7 +104,7 @@ def check_winget():
         )
 
         if not winget_source_available:
-            return DiagnosticResults(
+            return DiagnosticResult(
                 ready=False,
                 status=DiagnosticStatus.WINGET_SOURCE_MISSING,
                 winget_path=winget_path,
@@ -112,7 +114,7 @@ def check_winget():
             )
         
         # All required checks passed.
-        return DiagnosticResults(
+        return DiagnosticResult(
             ready=True,
             status=DiagnosticStatus.WINGET_OK,
             winget_path=winget_path,
@@ -121,9 +123,9 @@ def check_winget():
         )
     
     except FileNotFoundError:
-        # The executable dissapeared or became inaccessible
+        # The executable disapeared or became inaccessible
         # between path check and launch attempt.
-        return DiagnosticResults(
+        return DiagnosticResult(
             ready=False,
             status=DiagnosticStatus.WINGET_CANNOT_EXECUTE,
             winget_path=winget_path,
@@ -133,8 +135,8 @@ def check_winget():
         )
     
     except subprocess.TimeoutExpired:
-        # WinGet exists, but doesn't respond in a resonable amount of time.
-        return DiagnosticResults(
+        # WinGet exists, but doesn't respond in a reasonable amount of time.
+        return DiagnosticResult(
             ready=False,
             status=DiagnosticStatus.WINGET_TIMEOUT,
             winget_path=winget_path,
@@ -145,7 +147,7 @@ def check_winget():
     
     except OSError as exc:
         # Windows located WinGet but could not launch it.
-        return DiagnosticResults(
+        return DiagnosticResult(
             ready=False,
             status=DiagnosticStatus.WINGET_CANNOT_EXECUTE,
             winget_path=winget_path,
@@ -157,7 +159,7 @@ def check_winget():
     except Exception as exc:
         # Prevent unexpected diagnostic failure from crashing
         # entire application.
-        return DiagnosticResults(
+        return DiagnosticResult(
             ready=False,
             status=DiagnosticStatus.WINGET_ERROR,
             winget_path=winget_path,

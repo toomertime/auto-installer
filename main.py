@@ -1,4 +1,4 @@
-#auto installer v1.0.0
+#v2.1.0
 
 import tkinter as tk
 import threading
