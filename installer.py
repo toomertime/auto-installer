@@ -64,8 +64,6 @@ def install_app(app):
 
     app_name = app["name"]
     cmd = build_install_command(app)
-    # DEBUG
-    print("COMMAND:", cmd)
 
     # Store WinGet output
     output_lines = []
