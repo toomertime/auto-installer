@@ -27,7 +27,7 @@ def build_install_command(app):
         "--id", app["winget_id"],
         "--exact",
         "--silent",
-        "disable-interactivity", 
+        "--disable-interactivity", 
         "--accept-package-agreements",
         "--accept-source-agreements", 
     ]
