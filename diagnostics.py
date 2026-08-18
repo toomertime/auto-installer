@@ -26,8 +26,7 @@ def check_winget():
     
     try:
         version_result = subprocess.run(
-            # DEBUG: Use a fake winget command to test error handling.
-            ["fake-winget", "--version"],
+            [winget_path, "--version"],
             capture_output=True,
             text=True,
             timeout=10
